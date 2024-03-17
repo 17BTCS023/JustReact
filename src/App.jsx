@@ -2,13 +2,20 @@ import { useState } from 'react'
 import './App.css'
 import MessageBox from './MsgBox'
 import LotteryGame from './LotteryGame';
+import {sum} from './helper.js'
 
 function App() {
+
+  let winCondition = (ticket) => {
+      // return sum(ticket) === 15;
+      // return ticket.every((num) => num === ticket[0]);
+      return ticket[0] === 0;
+  }
 
   return(
     <>
     {/* <MessageBox name="Manisha" textColor="red"/> */}
-    <LotteryGame/>
+    <LotteryGame n={3} winCondition={winCondition}/>
     </>
   );
 

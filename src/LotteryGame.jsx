@@ -1,31 +1,22 @@
 import { useState } from "react";
 import Ticket from "./Ticket";
+import { genTicket, sum } from "./helper.js";
 
-export default function LotteryGame(){
+export default function LotteryGame({n=3 , winCondition}){
 
-    let [ticketNumber, setTicketNumber] = useState(0);
-    let [isFifteen, setIsFifteen] = useState(false);
+    let [ticketNumber, setTicketNumber] = useState(genTicket(n));
+    let isWinning = winCondition(ticketNumber);
 
-    let generateTicket = () => {
-        console.log("I will generate a ticket here for three digits");
-        let onesDigit = Math.floor(Math.random()*10);
-        let tensDigit = Math.floor(Math.random()*10);
-        let hundredDigit = Math.floor(Math.random()*10);
-
-        console.log(onesDigit, tensDigit, hundredDigit);
-        setTicketNumber((ticketNumber) => {
-            ticketNumber = onesDigit*1+tensDigit*10+hundredDigit*100;
-            return ticketNumber;
-        })
-        onesDigit+tensDigit+hundredDigit == 15 ? setIsFifteen(true) : false;
+    let buyTicket = () => {
+        setTicketNumber(genTicket(n));
     }
 
     return(
         <>
             <h1>Lottery Game</h1>
-            <h2> <Ticket num={3} /> </h2>
-            <button onClick={generateTicket}>Generate Ticket</button>
-            {isFifteen ? <p>Congratulations, You Won!</p> : <p>Give it another go</p>}
+            <h2> <Ticket ticket={ticketNumber} /> </h2>
+            <button onClick={buyTicket}>Generate Ticket</button>
+            {isWinning ? <p>Congratulations, You Won!</p> : <p>Give it another go</p>}
         </>
     );
-};  
+};
